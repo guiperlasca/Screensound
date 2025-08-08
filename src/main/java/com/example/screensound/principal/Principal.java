@@ -4,6 +4,7 @@ import com.example.screensound.model.Artista;
 import com.example.screensound.model.Musica;
 import com.example.screensound.model.TipoArtista;
 import com.example.screensound.repository.ArtistaRepository;
+import com.example.screensound.service.ConsultaWikipedia;
 
 import java.util.List;
 import java.util.Optional;
@@ -99,12 +100,20 @@ public class Principal {
 
     private void listarMusicas() {
         List<Artista> artistas = repositorio.findAll();
-        artistas.forEach(System.out::println);
+        artistas.forEach(a -> a.getMusicas().forEach(System.out::println));
     }
 
     private void buscarMusicasPorArtista() {
+        System.out.println("Buscar músicas de que artista? ");
+        var nome = leitura.nextLine();
+        List<Musica> musicas = repositorio.buscarMusicasPorArtista(nome);
+        musicas.forEach(System.out::println);
     }
 
     private void pesquisarDadosDoArtista() {
+        System.out.println("Pesquisar dados sobre qual artista?");
+        var nome = leitura.nextLine();
+        var resposta = ConsultaWikipedia.obterInformacao(nome);
+        System.out.println(resposta.trim());
     }
 }
